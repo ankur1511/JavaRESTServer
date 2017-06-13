@@ -6,13 +6,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class FileUpload {
 
-	private List<MultipartFile> crunchifyFiles;
+	private List<MultipartFile> files;
 
 	public List<MultipartFile> getFiles() {
-		return crunchifyFiles;
+		return files;
 	}
 
 	public void setFiles(List<MultipartFile> files) {
-		this.crunchifyFiles = files;
+		this.files = files;
 	}
+
 }

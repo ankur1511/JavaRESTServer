@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,23 +24,23 @@ import org.springframework.web.servlet.ModelAndView;
 public class UploadController implements HandlerExceptionResolver {
 
 	@RequestMapping(value = "/upload", method = RequestMethod.GET)
-	public ModelAndView crunchifyDisplayForm() {
+	public ModelAndView displayForm() {
 
 		ModelAndView model = new ModelAndView("uploadImage");
 		return model;
 	}
 
 	@RequestMapping(value = "/savefiles", method = RequestMethod.POST)
-	public String crunchifySave(@ModelAttribute("uploadForm") FileUpload uploadForm, Model map)
+	public String saveFile(@ModelAttribute("uploadFile") FileUpload fileUpload, Model map)
 			throws IllegalStateException, IOException {
 
 		String saveDirectory = "c:/Spring/";
 
-		List<MultipartFile> files = uploadForm.getFiles();
+		List<MultipartFile> files = fileUpload.getFiles();
 
 		List<String> fileNames = new ArrayList<String>();
 
-		if (null != files && files.size() > 0) {
+		if (files != null && files.size() > 0) {
 			for (MultipartFile multipartFile : files) {
 
 				String fileName = multipartFile.getOriginalFilename();
