@@ -11,6 +11,9 @@
 
 	<context:component-scan base-package="com.ankur.controller" />
 
+	<mvc:annotation-driven />
+	<context:annotation-config />
+
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
 		<property name="viewClass"
@@ -19,9 +22,46 @@
 		<property name="suffix" value=".jsp" />
 	</bean>
 
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/javarestserver" />
+		<property name="username" value="root" />
+		<property name="password" value="ABCDefgh1511@" />
+		<property name="initialSize" value="2" />
+		<property name="maxActive" value="5" />
+	</bean>
+
+
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<property name="maxUploadSize" value="502400" />
+	</bean>
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.hbm2ddl.auto">create</prop>
+			</props>
+		</property>
+		<property name="annotatedClasses">
+			<list>
+				<value>com.ankur.Model.FileUpload</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean id="imageUploadDao" class="com.ankur.Dao.Impl.ImageUploadDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
 </beans>
